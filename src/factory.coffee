@@ -1,7 +1,8 @@
 console.log 'PolyFactory started!'
 
 $status = null
-$loc = null
+$player = null
+$playerScreen = null
 
 setup = ->
   $('body').append '<div id="poly-factory" style="
@@ -16,12 +17,26 @@ setup = ->
 
   $status = $ '#poly-factory'
   $status.append '<div>Player: <span id="poly-location"><span></div>'
-  $loc = $ '#poly-location'
+  $player = $ '#poly-location'
+  $status.append '<div>PlayerScreen: <span id="poly-player-screen"><span></div>'
+  $playerScreen = $ '#poly-player-screen'
+
   setInterval updateStatus, 1000
 
 updateStatus = ->
-  loc = CrashMob?.globals?.gameManager?.heroEntity?.v3Location
-  if loc?
-    $loc.html "#{loc[0].toFixed 1}, #{loc[1].toFixed 1}, #{loc[2].toFixed 1}"
+  loaded = CrashMob?.globals?.gameManager?.heroEntity?.v3Location?
+
+  return if not loaded
+
+  $player.html vectorString CrashMob.globals.gameManager.heroEntity.v3Location
+  $playerScreen.html vectorString CrashMob.globals.camera.worldToScreen(
+    CrashMob.globals.gameManager.heroEntity.v3Location)
+
+vectorString = (loc) ->
+  (val.toFixed 1 for val in loc).join ', '
 
 $(document).ready setup
+
+# entity manager
+# resource despenser managers
+# game space map
