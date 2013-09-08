@@ -11,9 +11,14 @@
     {
       "matches": ["https://turbulenz.com/games/polycraft/play"],
       "js": [
-        "lib/jquery.js",
-        "lib/jquery.simulate.js"
+        // "lib/jquery.js",
+        // "lib/jquery.simulate.js",
+        "build/injector.js"
       ]
     }
+  ],
+
+  "web_accessible_resources": [
+    "build/factory.js"
   ]
 }
