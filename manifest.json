@@ -1,0 +1,19 @@
+{
+  "name": "PolyFactory",
+  "version": "0.0.1",
+  "manifest_version": 2,
+
+  "description": "Automates Polycraft",
+  "icons": {
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://turbulenz.com/games/polycraft/play"],
+      "js": [
+        "lib/jquery.js",
+        "lib/jquery.simulate.js"
+      ]
+    }
+  ]
+}
