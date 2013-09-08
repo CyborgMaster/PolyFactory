@@ -7,3 +7,4 @@ inject_page_script = (script_file) ->
   document.documentElement.removeChild script
 
 inject_page_script 'build/factory.js'
+inject_page_script 'lib/jquery.simulate.js'

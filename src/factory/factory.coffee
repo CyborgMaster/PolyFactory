@@ -24,18 +24,31 @@ setup = ->
   setInterval updateStatus, 1000
 
 updateStatus = ->
-  loaded = CrashMob?.globals?.gameManager?.heroEntity?.v3Location?
-
-  return if not loaded
-
-  $player.html vectorString CrashMob.globals.gameManager.heroEntity.v3Location
-  $playerScreen.html vectorString CrashMob.globals.camera.worldToScreen(
-    CrashMob.globals.gameManager.heroEntity.v3Location)
+  $player.html vectorString playerLoc()
+  $playerScreen.html vectorString worldToScreen playerLoc()
 
 vectorString = (loc) ->
   (val.toFixed 1 for val in loc).join ', '
 
-$(document).ready setup
+waitForLoad = ->
+  #Wait until the game engine has loaded enough to have a hero loaction
+  while not CrashMob?.globals?.gameManager?.heroEntity?.v3Location?
+    await setTimeout defer(), 1000
+  setup()
+
+playerLoc = ->
+  CrashMob.globals.gameManager.heroEntity.v3Location
+
+worldToScreen = (loc) ->
+  CrashMob.globals.camera.worldToScreen loc
+
+
+walkNorth = ->
+
+@polyFactory = {}
+@polyFactory.go = walkNorth
+
+$(document).ready waitForLoad
 
 # entity manager
 # resource despenser managers
