@@ -1,0 +1,3 @@
+{spawn} = require 'child_process'
+
+task 'watch', -> spawn 'coffee', ['--output', 'build', '-cw', 'src'], stdio: 'inherit'
