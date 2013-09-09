@@ -30,11 +30,8 @@ status =
     north = loc[..]
     north[0] += 5
     northScreen = poly.worldToScreen north
-    northClient = poly.screenToClient northScreen
+    northClient = driver.screenToClient northScreen
 
-    playerClient = poly.screenToClient poly.worldToScreen poly.playerLoc()
-    #playerClient = poly.worldToScreen poly.playerLoc()
-    #@marker.css { left: playerClient[0], top: playerClient[1] }
     @marker.css { left: northClient[0], top: northClient[1] }
 
     @status.html "Player: #{@vectorString poly.playerLoc()}<br>
