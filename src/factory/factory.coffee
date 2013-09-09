@@ -54,6 +54,11 @@ walkLoc = (loc) ->
 
   go2: walkTo
 
+  test: ->
+    driver.sendKey 'down', 'left'
+    await setTimeout defer(), 1000
+    driver.sendKey 'up', 'left'
+
 
 
 # entity manager
