@@ -1,13 +1,14 @@
-walkNorth = ->
+walkTowards = (loc) ->
   playerLoc = poly.playerLoc()
-  north = playerLoc[..]
-  north[0] += 1
+  dir = vector.sub loc, playerLoc
+  dirN = vector.div dir, vector.len dir
+  dirLoc = vector.add playerLoc, dirN
 
   playerPixel = poly.worldToScreen playerLoc
-  northPixel = poly.worldToScreen north
+  dirPixel = poly.worldToScreen dirLoc
 
   #get a vector pointing in the direction
-  d = vector.sub northPixel, playerPixel
+  d = vector.sub dirPixel, playerPixel
 
   # normalize
   len = vector.len d
@@ -31,8 +32,14 @@ walkNorth = ->
   driver.clickScreen pixel
 
 
+walkLoc = (loc) ->
+  driver.clickWorld loc
+
 @polyFactory =
-  go: walkNorth
+  go: walkTowards
+
+  go2: walkLoc
+
 
 # entity manager
 # resource despenser managers
