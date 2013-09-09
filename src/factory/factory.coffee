@@ -6,26 +6,23 @@ waitForLoad = ->
     await setTimeout defer(), 1000
   status.setup()
 
-walkNorth = ->
+northPixel = ->
   loc = poly.playerLoc()
-  console.log loc
   north = loc[..]
-  console.log north
   north[0] += 5
-  console.log north
-  northPixel = poly.worldToScreen north
-  console.log northPixel
-  northClient = poly.screenToClient northPixel
-  console.log northClient
+  pixel = poly.worldToScreen north
+  poly.screenToClient pixel
 
-  poly.$canvas().simulate 'mousedown'
-  await setTimeout defer(), 200
+walkNorth = ->
+  northClient = northPixel()
+
+  if not poly.isFocused()
+    poly.$canvas().simulate 'mousedown'
+
   poly.$canvas().simulate 'mousemove', {
     clientX: northClient[0], clientY: northClient[1]
   }
-  #await setTimeout defer(), 200
-  #poly.$canvas().simulate 'mousedown'
-  await setTimeout defer(), 200
+  poly.$canvas().simulate 'mousedown'
   poly.$canvas().simulate 'mouseup'
 
 @polyFactory =

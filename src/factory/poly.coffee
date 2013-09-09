@@ -11,7 +11,10 @@ poly =
   screenToClient: (point) ->
     offset_t = @$canvas().offset().top - $(window).scrollTop()
     offset_l = @$canvas().offset().left - $(window).scrollLeft()
-    [point[0] - offset_l, point[0] - offset_t]
+    [point[0] + offset_l, point[1] + offset_t]
 
   worldToClient: (loc) ->
     @screenToClient @worldToScreen loc
+
+  isFocused: ->
+    CrashMob.globals.inputDevice.isFocused()

@@ -1,26 +1,50 @@
 status =
   setup: ->
     $('body').append '<div id="poly-factory" style="
-    width: 200px;
-    height: 200px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: white;
-    z-index: 1000000;
-    "></div>'
+      width: 200px;
+      height: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: white;
+      z-index: 1000000;
+      "></div>'
 
-    @$status = $ '#poly-factory'
-    @$status.append '<div>Player: <span id="poly-location"><span></div>'
-    @$player = $ '#poly-location'
-    @$status.append '<div>PlayerScreen: <span id="poly-player-screen"><span></div>'
-    @$playerScreen = $ '#poly-player-screen'
+    @status = $ '#poly-factory'
 
-    setInterval @update.bind(this), 1000
+    $('body').append '<div id="poly-marker" style="
+      width: 10px;
+      height: 10px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: blue;
+      z-index: 1000001;
+      "></div>'
+    @marker = $ '#poly-marker'
+
+    setInterval @update.bind(this), 100
 
   update: ->
-    @$player.html @vectorString poly.playerLoc()
-    @$playerScreen.html @vectorString poly.worldToScreen poly.playerLoc()
+    loc = poly.playerLoc()
+    north = loc[..]
+    north[0] += 5
+    northScreen = poly.worldToScreen north
+    northClient = poly.screenToClient northScreen
+
+    playerClient = poly.screenToClient poly.worldToScreen poly.playerLoc()
+    #playerClient = poly.worldToScreen poly.playerLoc()
+    #@marker.css { left: playerClient[0], top: playerClient[1] }
+    @marker.css { left: northClient[0], top: northClient[1] }
+
+    @status.html "Player: #{@vectorString poly.playerLoc()}<br>
+      Player Screen: #{@vectorString poly.worldToScreen poly.playerLoc()}<br>
+      North: #{@vectorString north}<br>
+      North Screen: #{@vectorString northScreen}<br>
+      North Client: #{@vectorString northClient}<br>
+      Focus: #{poly.isFocused()}<br>
+      "
+
 
   vectorString: (loc) ->
     (val.toFixed 1 for val in loc).join ', '
