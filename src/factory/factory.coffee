@@ -55,6 +55,7 @@ walkLoc = (loc) ->
   go2: walkTo
 
   test: ->
+    driver.checkFocus()
     driver.sendKey 'down', 'left'
     await setTimeout defer(), 1000
     driver.sendKey 'up', 'left'

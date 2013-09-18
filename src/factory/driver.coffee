@@ -29,14 +29,12 @@ driver =
 
   checkFocus: ->
     if not poly.isFocused()
-      poly.$canvas().simulate 'mousedown'
-      poly.$canvas().simulate 'mouseup'
+      @clickWorld poly.playerLoc()
+      poly.$canvas().focus()
+
 
   screenToClient: (point) ->
     $canvas = poly.$canvas
     offset_t = $canvas().offset().top - $(window).scrollTop()
     offset_l = $canvas().offset().left - $(window).scrollLeft()
     [point[0] + offset_l, point[1] + offset_t]
-
-
-#TODO: to try and capture focus, click on the overlay
