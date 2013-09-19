@@ -6,8 +6,10 @@ driver =
     @clickClient @screenToClient pixel
 
   clickClient: (pixel) ->
-    if not poly.isFocused()
-      poly.$canvas().simulate 'mousedown'
+    @checkFocus()
+    @click pixel
+
+  click: (pixel) ->
     poly.$canvas().simulate 'mousemove', {
       clientX: pixel[0], clientY: pixel[1]
     }
@@ -29,7 +31,7 @@ driver =
 
   checkFocus: ->
     if not poly.isFocused()
-      @clickWorld poly.playerLoc()
+      @click @screenToClient poly.worldToScreen poly.playerLoc()
       poly.$canvas().focus()
 
 
@@ -45,6 +47,8 @@ driver =
     @cameraTowards loc
     while poly.playerDistanceTo(loc) > 5
       @walkTowards loc
+      console.log 'nope' if not poly.isPlayerFacing loc
+
       await setTimeout defer(), 250
     console.log 'Here!'
 

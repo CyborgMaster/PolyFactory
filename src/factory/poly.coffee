@@ -2,6 +2,9 @@ poly =
   playerLoc: ->
     CrashMob.globals.gameManager.heroEntity.v3Location
 
+  playerAngle: ->
+    CrashMob.globals.gameManager.heroEntity.yAngle
+
   worldToScreen: (loc) ->
     CrashMob.globals.camera.worldToScreen loc
 
@@ -29,8 +32,10 @@ poly =
   cameraAngle: ->
     vector.angle CrashMob.globals.gameManager.gameCamera.currentv3Direction
 
-  isPlayerFacingDir: (dir) ->
-    Math.abs(vector.constrainPi(
-      dir - CrashMob.globals.gameManager.heroEntity.yAngle)) < 0.2
+  isPlayerFacingAngle: (angle) ->
+    Math.abs(vector.constrainPi(angle - @playerAngle())) < 0.2
+
+  isPlayerFacing: (loc) ->
+    @isPlayerFacingAngle vector.angle vector.sub loc, @playerLoc()
 
 @poly = poly
