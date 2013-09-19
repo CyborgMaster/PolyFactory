@@ -1,7 +1,8 @@
 walkTo = (loc) ->
-  console.log poly.playerDistanceTo loc
+  return if poly.playerDistanceTo loc < 5
+
+  cameraTowards loc
   while poly.playerDistanceTo(loc) > 5
-    console.log 'Walking...'
     walkTowards loc
     await setTimeout defer(), 250
   console.log 'Here!'
@@ -26,11 +27,8 @@ walkTowards = (loc) ->
 
   # normalize
   len = vector.len d
-  # console.log len
   dn = vector.div d, len
-  # console.log dn
   d = vector.mul dn, 50
-  # console.log d
 
   #find a pixel in that direction close to the edge of the screen
   size = poly.screenSize()
@@ -45,14 +43,29 @@ walkTowards = (loc) ->
   # console.log pixel
   driver.clickScreen pixel
 
+cameraTo = (angle) ->
+  angDiff = vector.constrainAngle(angle - poly.cameraAngle())
+  while Math.abs(angDiff) > 0.2
+    direction = if angDiff < 0 then 'left' else 'right'
+    driver.checkFocus()
+    driver.sendKey 'down', direction
+    await setTimeout defer(), 100
+    driver.sendKey 'up', direction
+    angDiff = vector.constrainAngle(angle - poly.cameraAngle())
+  console.log 'Facing direction!'
+
+cameraTowards = (loc) ->
+  cameraTo vector.angle vector.sub loc, poly.playerLoc()
 
 walkLoc = (loc) ->
   driver.clickWorld loc
 
 @polyFactory =
-  go: walkTowards
+  go: cameraTo
 
-  go2: walkTo
+  go2: cameraTowards
+
+  go3: walkTo
 
   test: ->
     driver.checkFocus()

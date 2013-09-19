@@ -25,3 +25,6 @@ poly =
 
   playerDistanceTo: (loc) ->
     vector.len vector.sub @playerLoc(), loc
+
+  cameraAngle: ->
+    vector.angle CrashMob.globals.gameManager.gameCamera.currentv3Direction

@@ -40,7 +40,7 @@ status =
       North Screen: #{@vectorString northScreen}<br>
       North Client: #{@vectorString northClient}<br>
       Focus: #{poly.isFocused()}<br>
-      "
+      CameraDir: #{poly.cameraAngle().toFixed 1}"
 
 
   vectorString: (loc) ->

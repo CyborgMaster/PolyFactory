@@ -1,4 +1,7 @@
 vector =
+  pi: Math.PI
+  tpi: Math.PI * 2
+
   len: (v) ->
     Math.sqrt(v.reduce(((s, t) -> t * t + s), 0))
 
@@ -23,10 +26,18 @@ vector =
   isVector: (value) ->
     value and
       typeof value.length is 'number' and
-      not ( value.propertyIsEnumerable 'length' ) and
       typeof value[0] is 'number'
 
   copy: (v) ->
     (x for x in v)
+
+  angle: (v) ->
+    throw 'Not a 3d vector!' if not @isVector(v) or not v.length == 3
+    Math.atan2 v[0], v[2]
+
+  constrainAngle: (a) ->
+    a = (a + @pi) % @tpi
+    a += @tpi if a < 0
+    a - @pi
 
 @vector = vector
