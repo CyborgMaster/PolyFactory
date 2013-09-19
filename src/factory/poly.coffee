@@ -28,3 +28,9 @@ poly =
 
   cameraAngle: ->
     vector.angle CrashMob.globals.gameManager.gameCamera.currentv3Direction
+
+  isPlayerFacingDir: (dir) ->
+    Math.abs(vector.constrainPi(
+      dir - CrashMob.globals.gameManager.heroEntity.yAngle)) < 0.2
+
+@poly = poly
