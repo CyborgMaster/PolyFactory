@@ -33,9 +33,14 @@ vector =
 
   angle: (v) ->
     throw 'Not a 3d vector!' if not @isVector(v) or not v.length == 3
-    Math.atan2 v[0], v[2]
+    @constrainTwoPi @tpi - Math.atan2 v[0], v[2]
 
-  constrainAngle: (a) ->
+  constrainTwoPi: (a) ->
+    a %= @tpi
+    a += @tpi if a < 0
+    a
+
+   constrainPi: (a) ->
     a = (a + @pi) % @tpi
     a += @tpi if a < 0
     a - @pi

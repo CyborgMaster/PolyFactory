@@ -44,14 +44,21 @@ walkTowards = (loc) ->
   driver.clickScreen pixel
 
 cameraTo = (angle) ->
-  angDiff = vector.constrainAngle(angle - poly.cameraAngle())
-  while Math.abs(angDiff) > 0.2
-    direction = if angDiff < 0 then 'left' else 'right'
+  angDiff = vector.constrainPi(angle - poly.cameraAngle())
+
+  absDiff = Math.abs(angDiff)
+  threshold = switch
+    when absDiff > 0.5 then 0.4
+    when 0.2 < absDiff < 0.5 then 0.2
+    else 0.1
+
+  while Math.abs(angDiff) > threshold
+    direction = if angDiff > 0 then 'left' else 'right'
     driver.checkFocus()
     driver.sendKey 'down', direction
     await setTimeout defer(), 100
     driver.sendKey 'up', direction
-    angDiff = vector.constrainAngle(angle - poly.cameraAngle())
+    angDiff = vector.constrainPi(angle - poly.cameraAngle())
   console.log 'Facing direction!'
 
 cameraTowards = (loc) ->
